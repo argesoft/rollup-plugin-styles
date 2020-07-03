@@ -10,10 +10,10 @@ const getStylesFileManager = (less: less.Less): less.FileManager =>
       return true;
     }
 
-    async loadFile(filename: string, basedir: string): Promise<less.File> {
+    async loadFile(filename: string, basedir: string, config: less.PublicOptions): Promise<less.File> {
       const url = normalizeUrl(filename);
       const partialUrl = getUrlOfPartial(url);
-      const options = { basedir, extensions };
+      const options = { ...config, basedir, extensions };
 
       // Give precedence to importing a partial
       let id: string;

@@ -143,9 +143,15 @@ const plugin: postcss.Plugin<UrlOptions> = postcss.plugin(
 
     for await (const { node, url, decl, parsed, basedirs } of urlList) {
       let resolved: UrlFile | undefined;
+      let _realUrl = url;
+      let extra = "";
+      if (/[?#]/.test(url)) {
+        _realUrl = url.split(/[?#]/, 1)[0];
+        extra = url.replace(/^[^?#]+([?#])(.*)$/, "$1$2");
+      }
       for await (const basedir of basedirs) {
         try {
-          if (!resolved) resolved = await resolve(url, basedir);
+          if (!resolved) resolved = await resolve(_realUrl, basedir);
         } catch {
           /* noop */
         }
@@ -168,7 +174,7 @@ const plugin: postcss.Plugin<UrlOptions> = postcss.plugin(
         node.type = "string";
         node.value = inlineFile(from, source);
       } else {
-        const unsafeTo = normalizePath(generateName(placeholder, from, source));
+        const unsafeTo = normalizePath(generateName(placeholder, from + extra, source));
         let to = unsafeTo;
 
         // Avoid file overrides

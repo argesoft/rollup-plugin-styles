@@ -10,7 +10,7 @@ declare namespace less {
 
   interface FileManager extends AbstractFileManager {
     supports(filename: string, basedir: string): boolean;
-    loadFile(filename: string, basedir: string): Promise<File>;
+    loadFile(filename: string, basedir: string, config: PublicOptions): Promise<File>;
   }
 
   class PluginManager {

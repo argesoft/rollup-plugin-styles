@@ -108,7 +108,7 @@ export default (options: Options = {}): Plugin => {
       for (const dep of ctx.deps) this.addWatchFile(dep);
 
       for (const [fileName, source] of ctx.assets)
-        this.emitFile({ type: "asset", fileName, source });
+        this.emitFile({ type: "asset", fileName: fileName.split(/[?#]/, 1)[0], source });
 
       if (res.extracted) {
         const { id } = res.extracted;

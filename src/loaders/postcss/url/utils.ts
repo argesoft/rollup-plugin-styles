@@ -5,7 +5,7 @@ const urlFuncRe = /^url$/i;
 const imageSetFuncRe = /^(?:-webkit-)?image-set$/i;
 
 export const isDeclWithUrl = (decl: postcss.Declaration): boolean =>
-  /^(?:url|(?:-webkit-)?image-set)\(/i.test(decl.value);
+  /^(?:[a-z]{3,}|(?:-webkit-)?image-set)\(/i.test(decl.value);
 
 export const walkUrls = (
   parsed: ParsedValue,
